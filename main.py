@@ -1,5 +1,6 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QListWidget, QLabel, QFrame, QVBoxLayout
+from PyQt5.QtWidgets import QPushButton, QFileDialog, QWidget
 from PyQt5.QtGui import QPixmap, QMouseEvent, QPainter, QPen
 from PyQt5.QtCore import Qt, QPoint
 import math
@@ -99,6 +100,17 @@ class CustomFrame(QFrame):
         # y_text_y = max(self.y_line_end.y(), self.y_line_start.y()) + 20
         # painter.drawText(y_text_x, y_text_y, y_text)
 
+class FileHandling(QWidget):
+    def __init__(self, parent=None):
+        self.button = QPushButton("打开文件夹", self)
+        self.button.clicked.connect(self.open_folder)  # 绑定按钮点击事件
+        
+    def open_folder(self):
+        folder_path = QFileDialog.getExistingDirectory(self, "选择文件夹")
+        if folder_path:
+            print(f"选择的文件夹路径: {folder_path}")
+
+
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -133,14 +145,14 @@ class MainWindow(QMainWindow):
 
         # 创建一个QListWidget控件
         self.list_widget = QListWidget(self)
-
         # 设置QListWidget的大小为200x740
-        self.list_widget.setGeometry(20, 20, 200, 740)
-
-        # 添加一些示例项到QListWidget中
+        self.list_widget.setGeometry(20, 20, 200, 650)
+          # 添加一些示例项到QListWidget中
         self.list_widget.addItems(["Item 1", "Item 2", "Item 3", "Item 4"])
 
-
+        #self.button = FileHandling(self)
+        self.button = QPushButton("打开文件夹", self)
+        self.button.setGeometry(20,690,200,40)
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     window = MainWindow()
